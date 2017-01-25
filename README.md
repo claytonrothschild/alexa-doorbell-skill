@@ -1,5 +1,5 @@
 # alexa-doorbell
-Ask Amazon Echo who is at the door. Used Facebook Facial Recognition and Nest Security Camera API.
+Ask Amazon Echo who is at the door. Uses Facebook Facial Recognition Graph API and Nest Security Camera API.
 
 <h1>Usage:</h1>
 Request: "Alexa, ask doorbell who is at the door?"<br />
