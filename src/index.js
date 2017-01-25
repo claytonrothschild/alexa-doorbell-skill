@@ -12,8 +12,26 @@
  * App ID for the skill
  */
 var APP_ID = undefined;//replace with 'amzn1.echo-sdk-ams.app.[your-unique-value-here]';
-
+var nestToken  = $.cookie('nest_token')
+var facebookToken;
 var http = require('http');
+var graph = require('fbgraph');
+var regonize = require('fbgraph');
+
+if (nestToken) { // Simple check for token
+
+  // Create a reference to the API using the provided token
+  var dataRef = new Firebase('wss://developer-api.nest.com');
+  dataRef.auth(nestToken);
+
+  // in a production client we would want to
+  // handle auth errors here.
+
+} else {
+  // TODO: No auth token
+}
+
+
 
 /**
  * The AlexaSkill prototype and helper functions
@@ -108,9 +126,15 @@ function handleRecognizeRequest(intent, session, response) {
 }
 
 function takePhoto(){
-    //TODO
-    var photoUrl = "localhost\\frontDoor" + dateTime.getUtcDate + ".jpg";
-    return photoUrl;
+dataRef.on('value', function (snapshot) {
+  var data = snapshot.val();
+
+  // For simplicity, we only care about the first
+  // camera in the first structure
+  var camera = data.devices.cameras[structure.cameras[0]];
+
+  return camera.snapshot_url;
+});
 }
 
 
@@ -146,6 +170,8 @@ function makePhotoRequest(photoUrl, photoResponseCallback) {
         photoResponseCallback(new Error(e.message));
     });
 }
+
+function 
 
 // Create the handler that responds to the Alexa Request.
 exports.handler = function (event, context) {
